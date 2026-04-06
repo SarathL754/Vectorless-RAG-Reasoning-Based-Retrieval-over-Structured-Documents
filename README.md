@@ -65,7 +65,7 @@ Document → Hierarchical Tree → Reasoning-Based Navigation → Retrieval → 
 ## Pipeline
 ```mermaid
 flowchart TD
-    A[PDF] -->|parse| B[PageIndex API]
+    A[PDF] --> B[PageIndex API]
     B --> C[Document Tree\nnodes with titles + summaries]
     C --> D[LLM reasons over tree\n'Which nodes answer this query?']
     D --> E[Relevant node IDs]
