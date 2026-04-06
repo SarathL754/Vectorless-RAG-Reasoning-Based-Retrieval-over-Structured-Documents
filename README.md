@@ -1,35 +1,71 @@
-# Vectorless RAG
+🚀 Vectorless RAG: Reasoning-Based Retrieval over Structured Documents
 
-A Retrieval-Augmented Generation system that eliminates the need for vector embeddings and vector databases entirely.
+A lightweight implementation of a next-generation Retrieval-Augmented Generation (RAG) system that eliminates vector embeddings and vector databases, replacing similarity-based retrieval with reasoning over document structure.
 
-Instead of converting documents into embedding vectors and performing similarity search, this system uses **PageIndex** to extract a hierarchical tree structure from PDFs, then uses an **LLM to reason** over that tree to identify which nodes are relevant to a query — before retrieving their text to generate a grounded answer.
+This project demonstrates an emerging paradigm shift in RAG systems — moving from "retrieving similar text" to "reasoning about where the answer exists within a document."
 
----
+💡 Motivation
 
-## Why Vectorless?
+Traditional RAG pipelines rely on:
 
-Traditional RAG pipelines require:
-- An embedding model to encode chunks
-- A vector database (FAISS, Pinecone, Chroma, etc.) to store and search them
-- Chunking strategies that often break document structure
+Chunking documents into small pieces
+Encoding them into embeddings
+Retrieving based on vector similarity
 
-This approach replaces all of that with **document-structure-aware reasoning**:
+However, this approach introduces fundamental limitations:
 
-| | Traditional RAG | Vectorless RAG |
-|---|---|---|
-| Retrieval method | Vector similarity search | LLM reasoning over document tree |
-| Requires embedding model | Yes | No |
-| Requires vector database | Yes | No |
-| Preserves document structure | Rarely | Always |
-| Retrieval is explainable | No | Yes (thinking trace) |
+❌ Loss of document structure due to chunking
+❌ Semantic similarity ≠ actual relevance
+❌ Poor performance on long, structured documents (papers, contracts, reports)
 
----
+Recent research and industry developments suggest a new direction:
 
-## Pipeline
+Retrieval should be driven by reasoning over structure, not similarity.
 
-```
+Vectorless RAG (e.g., PageIndex) follows this idea by treating documents as hierarchical systems instead of flat text.
+
+🧠 Core Idea
+
+Instead of the traditional pipeline:
+
+Document → Chunks → Embeddings → Vector DB → Similarity Search → Answer
+
+This system follows:
+
+Document → Hierarchical Tree → Reasoning-Based Navigation → Retrieval → Answer
+A document is represented as a tree (like a Table of Contents)
+Each node contains:
+title
+summary
+reference to content
+An LLM reasons over this structure to locate relevant sections
+
+👉 This mimics how humans read documents:
+
+Scan structure → identify section → read relevant part
+
+This paradigm is known as reasoning-first retrieval.
+
+⚙️ Key Features
+🚫 No vector database
+🚫 No embedding model
+🚫 No arbitrary chunking
+🌲 Hierarchical tree-based indexing
+🧠 LLM-driven reasoning for retrieval
+🔍 Explainable and traceable retrieval paths
+📄 Optimized for long, structured documents
+
+Compared to traditional RAG:
+
+Feature	Traditional RAG	Vectorless RAG
+Retrieval method	Vector similarity	Reasoning over structure
+Embeddings required	Yes	No
+Vector DB required	Yes	No
+Structure preserved	No	Yes
+Explainability	Low	High
+🧪 System Pipeline
 PDF
- └─► PageIndex API ──► Document Tree (nodes with titles + summaries)
+ └─► PageIndex API ──► Document Tree (hierarchical index)
                               │
                               ▼
                     LLM reasons over tree
@@ -39,101 +75,113 @@ PDF
                     Relevant node IDs
                               │
                               ▼
-                    Extract node text (relevant context)
+                    Extract node text (context)
                               │
                               ▼
                     LLM generates grounded answer
-```
 
----
+This aligns with the two-step architecture of vectorless RAG:
 
-## Project Structure
-
-```
-├── pageindex_tree.py          # Step 1: Index a PDF, cache doc_id
-├── reasoning_based_retrieval.py  # Step 2: LLM picks relevant nodes from tree
-├── answer_generation.py       # Step 3: Extract context, generate answer
-├── setup_llm.py               # Async OpenAI wrapper
-└── data/                      # Place your PDF files here
-```
-
----
-
-## Setup
-
-```bash
+Build a structured tree index
+Perform reasoning-based retrieval
+📁 Project Structure
+├── pageindex_tree.py             # Step 1: Index PDF → build tree
+├── reasoning_based_retrieval.py  # Step 2: Select relevant nodes
+├── answer_generation.py          # Step 3: Generate answer from context
+├── setup_llm.py                  # Async LLM wrapper
+└── data/                         # Input PDF documents
+⚙️ Setup
 git clone https://github.com/yourusername/vectorless-rag.git
 cd vectorless-rag
 
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
 
 pip install -r requirements.txt
-```
 
-Create a `.env` file:
-```
+Create a .env file:
+
 PAGEINDEX_API_KEY=your_pageindex_api_key
 OPENAI_API_KEY=your_openai_api_key
-```
-
-Get your PageIndex API key at [pageindex.ai](https://pageindex.ai).
-
----
-
-## Usage
-
-**Step 1 — Index your document** (run once per PDF):
-```bash
+🚀 Usage
+Step 1 — Index Document
 python pageindex_tree.py
-```
-This submits the PDF to PageIndex, waits for processing, and caches the `doc_id` locally in `doc_cache.json`. Subsequent runs skip re-submission automatically.
-
-**Step 2 — Ask a question**:
-```bash
+Uploads PDF to PageIndex
+Builds hierarchical tree
+Stores doc_id locally
+Step 2 — Ask Questions
 python answer_generation.py
-```
 
 Output includes:
-1. Retrieved node titles and page numbers
-2. LLM's reasoning trace (which nodes it chose and why)
-3. Retrieved context excerpt
-4. Final generated answer
 
-To change the document or query, edit the `doc_path` and `query` variables in `answer_generation.py`.
-
----
-
-## Example Output
-
-```
+Retrieved node titles and page references
+LLM reasoning trace (why nodes were selected)
+Context extracted from document
+Final generated answer
+🧾 Example Output
 Retrieved Nodes:
-Node ID: node_3   Page: 2   Title: Attention Mechanism Overview
-Node ID: node_7   Page: 5   Title: Scaled Dot-Product Attention
-Node ID: node_12  Page: 8   Title: Multi-Head Attention
+Node 3 → Attention Overview
+Node 7 → Scaled Dot-Product Attention
+Node 12 → Multi-Head Attention
 
 Reasoning:
-The query asks about the attention mechanism. Node 3 provides a high-level
-overview, node 7 explains the core mathematical operation, and node 12
-covers the multi-head variant which is central to the Transformer...
-
-Retrieved Context:
-## Attention Mechanism Overview
-An attention function can be described as mapping a query and a set of
-key-value pairs to an output...
+The query relates to attention mechanisms. Node 3 provides overview,
+Node 7 explains computation, Node 12 extends to multi-head usage.
 
 Generated Answer:
-The attention mechanism computes a weighted sum of values, where the weight
-assigned to each value is determined by a compatibility function of the query
-with the corresponding key...
-```
+The attention mechanism computes a weighted sum of values...
+🧠 How It Works
+🌲 Tree-Based Indexing
 
----
+The document is transformed into a hierarchical structure:
 
-## How It Works
+Chapters → Sections → Subsections
 
-**Tree-based retrieval** — PageIndex parses the PDF's structure (sections, subsections, figures) into a JSON tree. Each node has a title, summary, and full text. The LLM receives only titles and summaries (not full text) to reason about which nodes are relevant — keeping the context window small even for large documents.
+This preserves context and relationships, unlike chunking.
 
-**Transparent reasoning** — The LLM outputs a `thinking` trace explaining why it selected each node, making retrieval decisions fully auditable.
+🧠 Reasoning-Based Retrieval
 
-**Doc ID caching** — Once a document is indexed, its `doc_id` is stored locally. Every subsequent query reuses the existing index without re-uploading the PDF.
+Instead of similarity scoring, the LLM:
+
+analyzes node summaries
+selects relevant branches
+navigates the tree
+
+👉 Retrieval becomes a decision-making process, not a lookup.
+
+🔍 Explainability
+
+Each answer includes:
+
+reasoning trace
+exact section references
+
+This makes the system auditable, unlike vector similarity scores.
+
+📊 Why This Matters
+
+Vectorless RAG represents a fundamental shift:
+
+Old Paradigm	New Paradigm
+"Find similar text"	"Find where the answer lives"
+Statistical retrieval	Reasoning-driven retrieval
+Flat text chunks	Structured document navigation
+
+This approach is particularly effective for:
+
+financial reports
+legal contracts
+research papers
+technical manuals
+
+Where structure and reasoning matter more than similarity.
+
+🚀 Future Work
+Multi-document reasoning
+Hybrid RAG (vector + reasoning)
+Vision-based document understanding
+Agentic tree traversal
+Benchmarking against vector RAG systems
+📚 References
+https://pageindex.ai/blog/pageindex-intro
+https://techcommunity.microsoft.com/blog/azuredevcommunityblog/vectorless-reasoning-based-rag-a-new-approach-to-retrieval-augmented-generation/4502238
