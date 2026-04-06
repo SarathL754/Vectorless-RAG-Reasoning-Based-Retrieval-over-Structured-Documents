@@ -1,10 +1,10 @@
-🚀 Vectorless RAG: Reasoning-Based Retrieval over Structured Documents
+## Vectorless RAG: Reasoning-Based Retrieval over Structured Documents
 
 A lightweight implementation of a next-generation Retrieval-Augmented Generation (RAG) system that eliminates vector embeddings and vector databases, replacing similarity-based retrieval with reasoning over document structure.
 
 This project demonstrates an emerging paradigm shift in RAG systems — moving from "retrieving similar text" to "reasoning about where the answer exists within a document."
 
-💡 Motivation
+## Motivation
 
 Traditional RAG pipelines rely on:
 
@@ -24,7 +24,7 @@ Retrieval should be driven by reasoning over structure, not similarity.
 
 Vectorless RAG (e.g., PageIndex) follows this idea by treating documents as hierarchical systems instead of flat text.
 
-🧠 Core Idea
+## Core Idea
 
 Instead of the traditional pipeline:
 
@@ -40,20 +40,20 @@ summary
 reference to content
 An LLM reasons over this structure to locate relevant sections
 
-👉 This mimics how humans read documents:
+This mimics how humans read documents:
 
 Scan structure → identify section → read relevant part
 
 This paradigm is known as reasoning-first retrieval.
 
-⚙️ Key Features
-🚫 No vector database
-🚫 No embedding model
-🚫 No arbitrary chunking
-🌲 Hierarchical tree-based indexing
-🧠 LLM-driven reasoning for retrieval
-🔍 Explainable and traceable retrieval paths
-📄 Optimized for long, structured documents
+Key Features
+ No vector database
+ No embedding model
+ No arbitrary chunking
+ Hierarchical tree-based indexing
+ LLM-driven reasoning for retrieval
+ Explainable and traceable retrieval paths
+ Optimized for long, structured documents
 
 Compared to traditional RAG:
 
@@ -63,7 +63,8 @@ Embeddings required	Yes	No
 Vector DB required	Yes	No
 Structure preserved	No	Yes
 Explainability	Low	High
-🧪 System Pipeline
+
+## System Pipeline
 PDF
  └─► PageIndex API ──► Document Tree (hierarchical index)
                               │
@@ -84,13 +85,13 @@ This aligns with the two-step architecture of vectorless RAG:
 
 Build a structured tree index
 Perform reasoning-based retrieval
-📁 Project Structure
+## Project Structure
 ├── pageindex_tree.py             # Step 1: Index PDF → build tree
 ├── reasoning_based_retrieval.py  # Step 2: Select relevant nodes
 ├── answer_generation.py          # Step 3: Generate answer from context
 ├── setup_llm.py                  # Async LLM wrapper
 └── data/                         # Input PDF documents
-⚙️ Setup
+## Setup
 git clone https://github.com/yourusername/vectorless-rag.git
 cd vectorless-rag
 
@@ -103,7 +104,8 @@ Create a .env file:
 
 PAGEINDEX_API_KEY=your_pageindex_api_key
 OPENAI_API_KEY=your_openai_api_key
-🚀 Usage
+
+## Usage
 Step 1 — Index Document
 python pageindex_tree.py
 Uploads PDF to PageIndex
@@ -118,7 +120,8 @@ Retrieved node titles and page references
 LLM reasoning trace (why nodes were selected)
 Context extracted from document
 Final generated answer
-🧾 Example Output
+
+## Example Output
 Retrieved Nodes:
 Node 3 → Attention Overview
 Node 7 → Scaled Dot-Product Attention
@@ -130,8 +133,9 @@ Node 7 explains computation, Node 12 extends to multi-head usage.
 
 Generated Answer:
 The attention mechanism computes a weighted sum of values...
-🧠 How It Works
-🌲 Tree-Based Indexing
+
+## How It Works
+ Tree-Based Indexing
 
 The document is transformed into a hierarchical structure:
 
@@ -139,7 +143,7 @@ Chapters → Sections → Subsections
 
 This preserves context and relationships, unlike chunking.
 
-🧠 Reasoning-Based Retrieval
+## Reasoning-Based Retrieval
 
 Instead of similarity scoring, the LLM:
 
@@ -147,9 +151,9 @@ analyzes node summaries
 selects relevant branches
 navigates the tree
 
-👉 Retrieval becomes a decision-making process, not a lookup.
+ Retrieval becomes a decision-making process, not a lookup.
 
-🔍 Explainability
+## Explainability
 
 Each answer includes:
 
@@ -158,7 +162,7 @@ exact section references
 
 This makes the system auditable, unlike vector similarity scores.
 
-📊 Why This Matters
+## Why This Matters
 
 Vectorless RAG represents a fundamental shift:
 
@@ -176,12 +180,12 @@ technical manuals
 
 Where structure and reasoning matter more than similarity.
 
-🚀 Future Work
+## Future Work
 Multi-document reasoning
 Hybrid RAG (vector + reasoning)
 Vision-based document understanding
 Agentic tree traversal
 Benchmarking against vector RAG systems
-📚 References
+## References
 https://pageindex.ai/blog/pageindex-intro
 https://techcommunity.microsoft.com/blog/azuredevcommunityblog/vectorless-reasoning-based-rag-a-new-approach-to-retrieval-augmented-generation/4502238
