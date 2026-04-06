@@ -1,0 +1,21 @@
+# Environment
+.env
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Runtime cache
+doc_cache.json
+
+# Data — add your own PDFs locally
+data/*.pdf
+
+# IDE
+.vscode/
+.idea/
+
