@@ -84,11 +84,13 @@ PDF
 ---
 
 ## Project Structure
+```plaintext
 ├── pageindex_tree.py # Step 1: Index PDF → build tree
 ├── reasoning_based_retrieval.py # Step 2: Select relevant nodes
 ├── answer_generation.py # Step 3: Generate answer
 ├── setup_llm.py # Async LLM wrapper
 └── data/ # Input PDFs
+```
 
 ---
 
