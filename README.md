@@ -6,7 +6,7 @@ A lightweight implementation of a next-generation Retrieval-Augmented Generation
 
 ---
 
-## 💡 Motivation
+## Motivation
 
 Traditional RAG pipelines rely on:
 - Chunking documents into small pieces  
@@ -20,11 +20,11 @@ However, this approach introduces key limitations:
 
 This project explores an alternative:
 
-👉 Retrieval by reasoning over document hierarchy instead of similarity search
+- Retrieval by reasoning over document hierarchy instead of similarity search
 
 ---
 
-## 🧠 Core Idea
+## Core Idea
 
 Instead of:
 Document → Chunks → Embeddings → Vector DB → Similarity Search → Answer
@@ -38,19 +38,19 @@ Document → Hierarchical Tree → Reasoning-Based Navigation → Retrieval → 
 
 ---
 
-## ⚙️ Features
+## Features
 
-- 🚫 No vector database  
-- 🚫 No embedding model  
-- 🚫 No chunking  
-- 🌲 Tree-based document indexing  
-- 🧠 Reasoning-driven retrieval  
-- 🔍 Explainable retrieval (traceable decision path)  
-- 📄 Optimized for long structured documents  
+-  No vector database  
+-  No embedding model  
+-  No chunking  
+-  Tree-based document indexing  
+-  Reasoning-driven retrieval  
+-  Explainable retrieval (traceable decision path)  
+-  Optimized for long structured documents  
 
 ---
 
-## 📊 Comparison
+## Comparison
 
 | Feature | Traditional RAG | Vectorless RAG |
 |--------|----------------|----------------|
@@ -62,7 +62,7 @@ Document → Hierarchical Tree → Reasoning-Based Navigation → Retrieval → 
 
 ---
 
-## 🧪 Pipeline
+## Pipeline
 PDF
 └─► PageIndex API ──► Document Tree (nodes with titles + summaries)
                             │
@@ -83,7 +83,7 @@ PDF
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 ├── pageindex_tree.py # Step 1: Index PDF → build tree
 ├── reasoning_based_retrieval.py # Step 2: Select relevant nodes
 ├── answer_generation.py # Step 3: Generate answer
@@ -92,7 +92,7 @@ PDF
 
 ---
 
-## ⚙️ Setup
+## Setup
 
 ```bash
 git clone https://github.com/yourusername/vectorless-rag.git
