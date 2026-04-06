@@ -63,23 +63,15 @@ Document → Hierarchical Tree → Reasoning-Based Navigation → Retrieval → 
 ---
 
 ## Pipeline
-PDF
-└─► PageIndex API ──► Document Tree (nodes with titles + summaries)
-                            │
-                            ▼
-                            LLM reasons over tree
-                            "Which nodes answer this query?"
-                            │
-                            ▼
-                            Relevant node IDs
-                            │
-                            ▼
-                            Extract node text (context)
-                            │
-                            ▼
-                            LLM generates grounded answer
-
-
+```mermaid
+flowchart TD
+    A[PDF] -->|parse| B[PageIndex API]
+    B --> C[Document Tree\nnodes with titles + summaries]
+    C --> D[LLM reasons over tree\n'Which nodes answer this query?']
+    D --> E[Relevant node IDs]
+    E --> F[Extract node text / context]
+    F --> G[LLM generates grounded answer]
+```
 
 ---
 
